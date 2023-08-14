@@ -1,0 +1,307 @@
+.profile {
+  padding-top: 1rem;
+  order: 0;
+  vertical-align: top;
+  flex-shrink: 0;
+  width: 200px;
+  font: 1rem "Oswald-Regular", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "Microsoft JhengHei", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans SC", "Source Han Sans TC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", SimSun, sans-serif;
+  color: #777;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.profile a {
+  transition: color 0.1s ease-in;
+}
+.profile>*:last-child {
+  border-bottom: none;
+}
+.profile-avatar.hide-border {
+  border: unset;
+}
+.profile-name {
+  font-size: 2rem;
+  line-height: 3rem;
+  padding: 0.5rem 0 0 0;
+  color: #333;
+  text-align: center;
+}
+.profile-signature {
+  font-size: 1rem;
+  text-align: center;
+}
+.profile-social {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  line-height: 1.7rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.profile-social .iconfont-archer {
+  position: relative;
+}
+.profile-social .iconfont-archer {
+  display: inline-block;
+  text-align: center;
+}
+.profile-social .iconfont-archer::before {
+  display: inline-block;
+  color: #777;
+  font-size: 1.5rem;
+  margin: 0 0.4rem 0 0;
+}
+.profile-social .iconfont-archer:last-of-child::before {
+  margin: 0;
+}
+.profile-social .email {
+  top: 2px;
+}
+.profile-social .email::before {
+  content: '\e642';
+}
+.profile-social .email:hover::before {
+  color: #0cb49d;
+}
+.profile-social .github::before {
+  font-size: 1.6rem;
+  content: '\e69f';
+}
+.profile-social .github:hover::before {
+  color: #24292e;
+}
+.profile-social .wechat {
+  top: 2px;
+}
+.profile-social .wechat::before {
+  font-size: 1.4rem;
+  content: '\ec7d';
+}
+.profile-social .wechat:hover::before {
+  color: #42ae3c;
+}
+.profile-social .qq {
+  top: 2px;
+}
+.profile-social .qq::before {
+  font-size: 1.4rem;
+  content: '\e61d';
+}
+.profile-social .qq:hover::before {
+  color: #4f4e71;
+}
+.profile-social .telegram {
+  top: 1.25px;
+}
+.profile-social .telegram::before {
+  font-size: 1.3rem;
+  content: '\e731';
+}
+.profile-social .telegram:hover::before {
+  color: #36a1d3;
+}
+.profile-social .weibo::before {
+  font-size: 1.6rem;
+  content: '\e619';
+}
+.profile-social .weibo:hover::before {
+  color: #d52a2a;
+}
+.profile-social .zhihu {
+  top: 1.5px;
+}
+.profile-social .zhihu::before {
+  font-size: 1.35rem;
+  content: '\e61a';
+}
+.profile-social .zhihu:hover::before {
+  color: #0f88eb;
+}
+.profile-social .douban {
+  top: 1px;
+}
+.profile-social .douban::before {
+  font-size: 1.25rem;
+  content: '\e605';
+}
+.profile-social .douban:hover::before {
+  color: #071;
+}
+.profile-social .facebook {
+  top: 2.5px;
+}
+.profile-social .facebook::before {
+  font-size: 1.5rem;
+  content: '\e67a';
+}
+.profile-social .facebook:hover::before {
+  color: #3b5998;
+}
+.profile-social .twitter {
+  top: 1px;
+}
+.profile-social .twitter::before {
+  content: '\e634';
+}
+.profile-social .twitter:hover::before {
+  color: #1da1f2;
+}
+.profile-social .instagram {
+  top: 2px;
+}
+.profile-social .instagram::before {
+  content: '\e79d';
+  font-size: 1.4rem;
+}
+.profile-social .instagram:hover::before {
+  color: #8042b6;
+}
+.profile-social .stack-overflow {
+  top: 0.5px;
+}
+.profile-social .stack-overflow::before {
+  font-size: 1.15rem;
+  content: '\e80b';
+}
+.profile-social .stack-overflow:hover::before {
+  color: #f37f23;
+}
+.profile-social .segmentFault {
+  top: 2px;
+}
+.profile-social .segmentFault::before {
+  font-size: 1.5rem;
+  content: '\e60c';
+}
+.profile-social .segmentFault:hover::before {
+  color: #f37f23;
+}
+.profile-social .juejin {
+  top: 0.5px;
+}
+.profile-social .juejin::before {
+  font-size: 1.35rem;
+  content: '\e60b';
+}
+.profile-social .juejin:hover::before {
+  color: #f37f23;
+}
+.profile-social .v2ex::before {
+  font-size: 1.1rem;
+  content: '\e663';
+}
+.profile-social .v2ex:hover::before {
+  color: #171718;
+}
+.profile-social .bilibili {
+  top: 3px;
+}
+.profile-social .bilibili::before {
+  font-size: 1.75rem;
+  content: '\e64e';
+}
+.profile-social .bilibili:hover::before {
+  color: #2cb2f9;
+}
+.profile-social .linkedin {
+  top: -0.5px;
+}
+.profile-social .linkedin::before {
+  font-size: 1.25rem;
+  content: '\e695';
+}
+.profile-social .linkedin:hover::before {
+  color: #0077b5;
+}
+.profile-social .steam {
+  top: 1px;
+}
+.profile-social .steam::before {
+  font-size: 1.25rem;
+  content: '\f23b';
+}
+.profile-social .steam:hover::before {
+  color: #010101;
+}
+.profile-social .others {
+  top: -0.5px;
+}
+.profile-social .others::before {
+  font-size: 1.1rem;
+  content: '\e64a';
+}
+.profile-social .others:hover::before {
+  color: #8090b0;
+}
+.profile-social .rss::before {
+  font-size: 1.05rem;
+  content: '\e652';
+}
+.profile-social .rss:hover::before {
+  color: #e53935;
+}
+.wechat,
+.qq {
+  cursor: pointer;
+}
+.wechat:hover .profile-qr,
+.qq:hover .profile-qr {
+  opacity: 1;
+  visibility: visible;
+}
+.profile-qr {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 2.5rem;
+  border: 3px solid #fff;
+  border-radius: 3px;
+  z-index: 99;
+  background-color: #fff;
+  width: 7rem;
+  padding: 0.5rem;
+  opacity: 0;
+  transition: all 0.1s ease-in 0s;
+}
+.friends {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  text-align: left;
+}
+.friends div {
+  font-size: 1.2rem;
+  text-align: left;
+  font-weight: bold;
+}
+.friends a {
+  margin-right: 0.6rem;
+  color: #777;
+}
+.friends a:hover {
+  color: #f75357;
+}
+.profile-link-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.profile-link-item a {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #777;
+}
+.profile-link-item a:hover {
+  color: #f75357;
+}
+.profile-item-icon {
+  margin-right: 0.3rem;
+}
+@font-face {
+  font-family: 'iconfont-archer';
+  src: url("//at.alicdn.com/t/font_327081_s1wbjxwfu9c.eot");
+  src: url("//at.alicdn.com/t/font_327081_s1wbjxwfu9c.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_327081_s1wbjxwfu9c.woff") format("woff"), url("//at.alicdn.com/t/font_327081_s1wbjxwfu9c.ttf") format("truetype"), url("//at.alicdn.com/t/font_327081_s1wbjxwfu9c.svg#iconfont-archer") format("svg");
+}
+.iconfont-archer {
+  font-family: 'iconfont-archer' !important;
+  font-size: 1rem;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
