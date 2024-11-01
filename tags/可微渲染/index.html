@@ -20,7 +20,7 @@
 
 
 
-<title>龙龙的博客</title>
+<title>标签: 可微渲染 | 龙龙的博客</title>
 
 <!-- 通过_config.yml加载网站图标 -->
 
@@ -217,246 +217,54 @@
 </div>
 
   <main class="p-12">
-    <!-- 文章模板 -->
-<!-- css -->
+    
 
-<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
-
-
-<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
-
-<!-- toc -->
-
-<section class="px-6 max-w-prose mx-auto md:px-0">
-  <!-- header -->
-  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
-    <div class="pt-4 md:pt-6">
-      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        
-      </h1>
-      <p class="mb-6">
-        
-      </p>
-      <div>
-        <section class="flex items-center gap-3 text-sm">
-          <time>2024-10-30 21:32:54</time>
-          <span class="text-gray-400">·</span>
-          <span>3 min</span>
-          <span class="text-gray-400">·</span>
-          <span>655 words</span>
-        </section>
+  <div>
+    <h2>Tag - 可微渲染</h2>
+  </div>
+  <section class="px-6 max-w-prose mx-auto gap-12 grid grid-cols-1">
+  <div class="flex flex-col h-48 items-center justify-center">
+    <h1 class="site-title text-4xl leading-relaxed">
+      龙龙的博客
+    </h1>
+    <p class="text-gray-500 mt-2">
+      
+    </p>
+  </div>
+  
+  <!-- 加载每一篇文章的信息 -->
+  
+    <!-- 将文章的完成年份赋值给cur_year-->
+    
+    
+      <div class="relative pointer-events-none">
+        <!-- 倘若文章的年份第一次出现，则将其用大号半透明字体显示 -->
+        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2024</span>
       </div>
-    </div>
-  </header>
-  <!-- content -->
-  <article class="post-content mt-10 prose dark:prose-invert post-content">
-    <p>一维高斯分布 $x\sim{}\mathcal{N}(\mu,\sigma^2)$ 的概率密度函数：<script type="math/tex">f(x)=\frac{1}{\sigma\sqrt{2\pi}}\text{exp}(-\frac{(x-\mu)^2}{2 \sigma^2})</script><br>三维独立高斯分布的概率密度函数为：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-f(\mathbf{x})
-&=f(x_1,x_2,x_3)
-\\
-&=f_1(x_1)f_2(x_2)f_3(x_3)
-\\
-&=\frac{1}{(2\pi)^{\frac{3}{2}}\sigma_1\sigma_2\sigma_3} \text{exp}(-\frac{(x_1-\mu_1)^2}{2 \sigma_1^2}-\frac{(x_2-\mu_2)^2}{2 \sigma_2^2}-\frac{(x_3-\mu_1)^2}{2 \sigma_1^2})
-\end{align}</script><p>其中，$\mathbf{x}=(x_1,x_2,x_3)^\top$，将二次型形式转换为矩阵表达，</p>
-<script type="math/tex; mode=display">
-\begin{align}
--\frac{(x_1-\mu_1)^2}{2 \sigma_1^2}-\frac{(x_2-\mu_2)^2}{2 \sigma_2^2}-\frac{(x_3-\mu_1)^2}{2 \sigma_1^2}&=
-\begin{bmatrix}
-x_1-\mu_1, x_2-\mu_2, x_3-\mu_3
-\end{bmatrix}
-\begin{bmatrix}
-&\frac{1}{\sigma_1^2},&0,&0\\
-&0, &\frac{1}{\sigma_2^2},&0\\
-&0,&0,&\frac{1}{\sigma_3^2}
-\end{bmatrix}
-\begin{bmatrix}
-x_1-\mu_1 \\ x_2-\mu_2 \\ x_3-\mu_3
-\end{bmatrix}\\
-&=-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^{\top}\Sigma^{-1}(\mathbf{x}-\mathbf{\mu})
-\end{align}</script><p>其中，三个变量$\mathbf{x}=(x_1,x_2,x_3)^\top$之间都是相互独立的，所以变量之间的协方差是对角阵的形式，即</p>
-<script type="math/tex; mode=display">
-\Sigma=
-\begin{bmatrix}
-&\sigma_1^2,&0,&0\\
-&0, &\sigma_2^2,&0\\
-&0,&0,&\sigma_3^2
-\end{bmatrix}</script><p>也就是，$\sigma_1\sigma_2\sigma_3=\lvert\Sigma\rvert^\frac{1}{2}$。因此，用向量形式表达的三维高斯分布的概率函数为，</p>
-<script type="math/tex; mode=display">
-f(\mathbf{x})=\frac{1}{(2\pi)^{\frac{3}{2}} \lvert\Sigma\rvert^\frac{1}{2}} \text{exp}\big(-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^{\top}\Sigma^{-1}(\mathbf{x}-\mathbf{\mu})\big)</script><p>对于更为一般的，相关多元高斯分布，我们先假设有$n$个相关的变量$\mathbf{X}=[X_1,X_2,X_3]^\top$，其协方差矩阵为$\Sigma$，由协方差矩阵的性质可知，其一定为实对称矩阵，因此协方差矩阵可以正交分解，即</p>
-<script type="math/tex; mode=display">
-\mathbf\Sigma=\mathbf{V}\Lambda\mathbf{V}^\top=\mathbf{V}\Lambda\mathbf{V}^{-1}</script><p>其中，$\mathbf V$是单位特征向量组成的矩阵，$\Lambda=\text{diag}(\lambda_1,\lambda_2,\lambda_3)$。<br>对相关变量应用一次变换，$\mathbf{X’}=\mathbf{V}^\top\mathbf{X}$。变换后的高斯分布的期望为$\mathbf{\mu’}=\mathbf{V}^\top\mathbf{\mu}$。</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\Lambda 
-&= (\mathbf{V}^{-1}\mathbf{V})\Lambda(\mathbf{V}^{-1}\mathbf{V})\\
-&=(\mathbf{V}^{\top}\mathbf{V})\Lambda(\mathbf{V}^{\top}\mathbf{V})
-\end{align}</script><p>变换后高斯分布的协方差矩阵为，</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\mathbb{E}\big((\mathbf{X'}-\mathbf{\mu'})(\mathbf{X'}-\mathbf{\mu'})^\top\big)
-&=\mathbb{E}\Big(\mathbf{V}^\top(\mathbf{X}-\mu)\big(\mathbf{V}^\top(\mathbf{X}-\mu)\big)^\top\Big) \\
-&=\mathbb{E}\Big(\mathbf{V}^\top(\mathbf{X}-\mu)(\mathbf{X}-\mu)^\top \mathbf{V} \Big) \\
-&=\mathbf{V}^\top\mathbb{E}\Big((\mathbf{X}-\mu)(\mathbf{X}-\mu)^\top\Big)\mathbf{V} \\
-&= \mathbf{V}^\top\mathbf{\Sigma}\mathbf{V} \\
-&= \mathbf{\Lambda}
-\end{align}</script><p>由于$\mathbf{\Lambda}$是对角阵，所以高斯分布各分量之间不相关；又因为多元高斯分布不相关和相互独立等价，因此变换后的$\mathbf{X’}$变量之间是相互独立的。</p>
-
-  </article>
-  <!-- tag -->
-  <div class="mt-12 pt-6 border-t border-gray-200">
     
-  </div>
-  <!-- prev and next -->
-  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
-    <div>
-      
-    </div>
-    <div>
-      
-        <a href="/posts/2023/08/blog-post-3/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          CMake笔记
-          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
-        </a>
-      
-    </div>
-  </div>
-  <!-- comment -->
-  <div class="article-comments mt-12">
-    
-<script
-  src="https://giscus.app/client.js"
-  data-repo=""
-  data-repo-id=""
-  data-category=""
-  data-category-id=""
-  data-mapping=""
-  data-strict="0"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="preferred_color_scheme"
-  data-lang="zh-CN"
-  crossorigin="anonymous"
-  async
-></script>
-<script>
-  window.onload = function () {
-    const isDark = document.documentElement.classList.contains("dark");
-    const giscusFrame = document.querySelector("iframe.giscus-frame");
-    giscusFrame.contentWindow.postMessage(
-      {
-        giscus: {
-          setConfig: {
-            theme: isDark ? "dark" : "light",
-          },
-        },
-      },
-      "https://giscus.app"
-    );
-  };
-</script>
-
-
-  </div>
+    <a href="/posts/2024/11/blog-post-1/">
+      <header>
+        <!-- 显示文章标题 -->
+        <h2 class="font-bold text-xl">
+          3D Gaussian Splatting 学习笔记
+        </h2>
+      </header>
+      <section class="text-gray-400 my-1 text-sm time">
+        <!-- 显示文章的摘要 -->
+        <p class="line-clamp-4">
+          
+        </p>
+        <p class="line-clamp-4">
+          <!-- 显示文章的月/日 -->
+          11月 01
+          <!-- ·显示文章的预计阅读时间 -->
+          4 min
+        </p>
+      </section>
+    </a>
+  
 </section>
-<!-- js inspect -->
 
-<script src="/lib/clipboard.min.js"></script>
-
-
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<script>
-  $(document).ready(() => {
-    const maraidConfig = {
-      theme: "forest",
-      logLevel: 3,
-      flowchart: { curve: "linear" },
-      gantt: { axisFormat: "%m/%d/%Y" },
-      sequence: { actorMargin: 50 },
-    };
-    mermaid.initialize(maraidConfig);
-  });
-</script>
-
-
-
-<script src="/lib/fancybox/fancybox.umd.min.js"></script>
-
-<script>
-  $(document).ready(() => {
-    $('.post-content').each(function(i){
-      $(this).find('img').each(function(){
-        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
-        var alt = this.alt;
-        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
-        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
-      });
-      $(this).find('.fancybox').each(function(){
-        $(this).attr('rel', 'article' + i);
-      });
-    });
-
-    Fancybox.bind('[data-fancybox="gallery"]', {
-        // options
-    })
-  })
-</script>
-
-<!-- tocbot begin -->
-
-<script src="/lib/tocbot/tocbot.min.js"></script>
-
-<script>
-  $(document).ready(() => {
-      tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.post-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '.post-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3',
-        // For headings inside relative or absolute positioned containers within content.
-        hasInnerContainers: true,
-    });
-  })
-</script>
-<!-- tocbot end -->
 
 
   </main>

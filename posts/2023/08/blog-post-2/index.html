@@ -254,7 +254,8 @@
   </header>
   <!-- content -->
   <article class="post-content mt-10 prose dark:prose-invert post-content">
-    <h4 id="如何在一个ROS功能包中引用其它ROS功能包？"><a href="#如何在一个ROS功能包中引用其它ROS功能包？" class="headerlink" title="如何在一个ROS功能包中引用其它ROS功能包？"></a>如何在一个ROS功能包中引用其它ROS功能包？</h4><p>假设被引用的ROS包名称为<code>third_pkg</code>。</p>
+    <h4 id="如何在一个ros功能包中引用其它ros功能包"><a class="markdownIt-Anchor" href="#如何在一个ros功能包中引用其它ros功能包"></a> 如何在一个ROS功能包中引用其它ROS功能包？</h4>
+<p>假设被引用的ROS包名称为<code>third_pkg</code>。</p>
 <p>首先在<code>CMakeList.txt</code>中修改如下内容：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(catkin REQUIRED COMPONENTS</span><br><span class="line">	third_pkg</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>接着在<code>package.xml</code>中添加如下内容：</p>
