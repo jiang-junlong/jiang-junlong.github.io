@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>3D Gaussian Splatting 学习笔记</title>
+      <link href="//posts/2024/11/blog-post-1/"/>
+      <url>//posts/2024/11/blog-post-1/</url>
+      
+        <content type="html"><![CDATA[<h3 id="三维高斯分布"><a href="#三维高斯分布" class="headerlink" title="三维高斯分布"></a>三维高斯分布</h3><p>一维高斯分布 $x\sim{}\mathcal{N}(\mu,\sigma^2)$ 的概率密度函数：<script type="math/tex">f(x)=\frac{1}{\sigma\sqrt{2\pi}}\text{exp}(-\frac{(x-\mu)^2}{2 \sigma^2})</script><br>三维独立高斯分布的概率密度函数为：</p><script type="math/tex; mode=display">\begin{align}f(\mathbf{x})&=f(x_1,x_2,x_3)\\&=f_1(x_1)f_2(x_2)f_3(x_3)\\&=\frac{1}{(2\pi)^{\frac{3}{2}}\sigma_1\sigma_2\sigma_3} \text{exp}(-\frac{(x_1-\mu_1)^2}{2 \sigma_1^2}-\frac{(x_2-\mu_2)^2}{2 \sigma_2^2}-\frac{(x_3-\mu_1)^2}{2 \sigma_1^2})\end{align}</script><p>其中，$\mathbf{x}=(x_1,x_2,x_3)^\top$，将二次型形式转换为矩阵表达，</p><script type="math/tex; mode=display">\begin{align}-\frac{(x_1-\mu_1)^2}{2 \sigma_1^2}-\frac{(x_2-\mu_2)^2}{2 \sigma_2^2}-\frac{(x_3-\mu_1)^2}{2 \sigma_1^2}&=\begin{bmatrix}x_1-\mu_1, x_2-\mu_2, x_3-\mu_3\end{bmatrix}\begin{bmatrix}&\frac{1}{\sigma_1^2},&0,&0\\&0, &\frac{1}{\sigma_2^2},&0\\&0,&0,&\frac{1}{\sigma_3^2}\end{bmatrix}\begin{bmatrix}x_1-\mu_1 \\ x_2-\mu_2 \\ x_3-\mu_3\end{bmatrix}\\&=-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^{\top}\Sigma^{-1}(\mathbf{x}-\mathbf{\mu})\end{align}</script><p>其中，三个变量$\mathbf{x}=(x_1,x_2,x_3)^\top$之间都是相互独立的，所以变量之间的协方差是对角阵的形式，即</p><script type="math/tex; mode=display">\Sigma=\begin{bmatrix}&\sigma_1^2,&0,&0\\&0, &\sigma_2^2,&0\\&0,&0,&\sigma_3^2\end{bmatrix}</script><p>也就是，$\sigma_1\sigma_2\sigma_3=\lvert\Sigma\rvert^\frac{1}{2}$。因此，用向量形式表达的三维高斯分布的概率函数为，</p><script type="math/tex; mode=display">f(\mathbf{x})=\frac{1}{(2\pi)^{\frac{3}{2}} \lvert\Sigma\rvert^\frac{1}{2}} \text{exp}\big(-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^{\top}\Sigma^{-1}(\mathbf{x}-\mathbf{\mu})\big)</script><p>对于更为一般的，相关多元高斯分布，我们先假设有$n$个相关的变量$\mathbf{X}=[X_1,X_2,X_3]^\top$，其协方差矩阵为$\Sigma$，由协方差矩阵的性质可知，其一定为实对称矩阵，因此协方差矩阵可以正交分解，即</p><script type="math/tex; mode=display">\mathbf\Sigma=\mathbf{V}\Lambda\mathbf{V}^\top=\mathbf{V}\Lambda\mathbf{V}^{-1}</script><p>其中，$\mathbf V$是单位特征向量组成的矩阵，$\Lambda=\text{diag}(\lambda_1,\lambda_2,\lambda_3)$。<br>对相关变量应用一次变换，$\mathbf{X’}=\mathbf{V}^\top\mathbf{X}$。变换后的高斯分布的期望为$\mathbf{\mu’}=\mathbf{V}^\top\mathbf{\mu}$。</p><script type="math/tex; mode=display">\begin{align}\Lambda &= (\mathbf{V}^{-1}\mathbf{V})\Lambda(\mathbf{V}^{-1}\mathbf{V})\\&=(\mathbf{V}^{\top}\mathbf{V})\Lambda(\mathbf{V}^{\top}\mathbf{V})\end{align}</script><p>变换后高斯分布的协方差矩阵为，</p><script type="math/tex; mode=display">\begin{align}\mathbb{E}\big((\mathbf{X'}-\mathbf{\mu'})(\mathbf{X'}-\mathbf{\mu'})^\top\big)&=\mathbb{E}\Big(\mathbf{V}^\top(\mathbf{X}-\mu)\big(\mathbf{V}^\top(\mathbf{X}-\mu)\big)^\top\Big) \\&=\mathbb{E}\Big(\mathbf{V}^\top(\mathbf{X}-\mu)(\mathbf{X}-\mu)^\top \mathbf{V} \Big) \\&=\mathbf{V}^\top\mathbb{E}\Big((\mathbf{X}-\mu)(\mathbf{X}-\mu)^\top\Big)\mathbf{V} \\&= \mathbf{V}^\top\mathbf{\Sigma}\mathbf{V} \\&= \mathbf{\Lambda}\end{align}</script><p>由于$\mathbf{\Lambda}$是对角阵，所以高斯分布各分量之间不相关；又因为多元高斯分布不相关和相互独立等价，因此变换后的$\mathbf{X’}$变量之间是相互独立的。</p><h3 id="三维高斯溅射"><a href="#三维高斯溅射" class="headerlink" title="三维高斯溅射"></a>三维高斯溅射</h3><p>论文中对三维高斯分布做了简化处理，和标准形式对比可以看到去掉了指数部分前面的<strong>尺度系数，默认模型坐标中心在原点</strong>，方便<strong>旋转放缩</strong>。</p><script type="math/tex; mode=display">G(\mathbf{x})=e^{-\frac{1}{2}(\mathbf{x})^\top\Sigma^{-1}\mathbf{x}}</script><p>其中，$\mathbf{x}=[a,b,c]^\top$是三维列坐标，$\mu$是椭球中心，协方差矩阵$\Sigma$为：</p><script type="math/tex; mode=display">\Sigma = \begin{bmatrix}&\sigma_a^2 &\text{Cov}(a,b) &\text{Cov}(a,c)\\&\text{Cov}(a,b) &\sigma_b^2 &\text{Cov}(b,c)\\&\text{Cov}(a,c) &\text{Cov}(b,c) &\sigma_c^2\\\end{bmatrix}</script><p>协方差矩阵控制椭球在3轴向的伸缩和旋转，其中协方差矩阵的特征向量就是椭球对称轴。且根据协方差矩阵的性质，$\Sigma$半正定。因此为了避免带约束条件的优化，将协方差矩阵看作一个椭球，而一个椭球是可以通过将球按轴向放缩在旋转得到。因此，</p><script type="math/tex; mode=display">\mathbf\Sigma=\mathbf{R}\mathbf{S}\mathbf{S}^\top\mathbf{R}^\top</script><p>因为旋转矩阵也需要满足正定的条件，因此论文中使用四元数来表示旋转。</p><h3 id="三维高斯溅射（世界系-rightarrow-相机系-rightarrow-图像平面）"><a href="#三维高斯溅射（世界系-rightarrow-相机系-rightarrow-图像平面）" class="headerlink" title="三维高斯溅射（世界系 $\rightarrow$ 相机系 $\rightarrow$ 图像平面）"></a>三维高斯溅射（世界系 $\rightarrow$ 相机系 $\rightarrow$ 图像平面）</h3><p>将三维高斯从世界系转到相机系，需要一个旋转$\mathbf{W}$和平移$\mathbf{t}$，由于平移不改变高斯的形状，所以</p><script type="math/tex; mode=display">\begin{align}G(\mathbf{x})&=e^{-\frac{1}{2}(\mathbf{x})^\top\Sigma^{-1}\mathbf{x}}\\&=e^{-\frac{1}{2}(\mathbf{x})^\top\mathbf{W}^\top\mathbf{W}\Sigma^{-1}\mathbf{W}^\top\mathbf{W}\mathbf{x}}\\&=e^{-\frac{1}{2}(\mathbf{W}\mathbf{x})^\top\mathbf{W}\Sigma^{-1}\mathbf{W}^\top(\mathbf{W}\mathbf{x})}\end{align}</script><p>因此，相机系下三维高斯的协方差矩阵为</p><script type="math/tex; mode=display">\begin{align}\Sigma_c^{-1}&=\mathbf{W}\Sigma^{-1}\mathbf{W}^\top             \\&=(\mathbf{W}^\top)^\top\Sigma^{-1}\mathbf{W}^\top \\&=(\mathbf{W}^\top)^{-1}\Sigma^{-1}\mathbf{W}^{-1} \\&=(\mathbf{W}\Sigma\mathbf{W}^\top)^{-1}\end{align}</script><p>即，</p><script type="math/tex; mode=display">\Sigma_c=\mathbf{W}\Sigma\mathbf{W}^\top</script><p>这样，我们就得到了相机系下三维高斯基元的分布。紧接着，我们需要将相机系下的三维高斯溅射到图像平面上的二维高斯。<br>根据小孔成像相机模型：相机系下的三维坐标到相机平面坐标的二维坐标的映射过程为：</p><script type="math/tex; mode=display">\begin{bmatrix}\mathbf{X}_c\\ \mathbf{Y}_c\\ \mathbf{Z}_c\\\end{bmatrix}\mapsto\begin{bmatrix}f_x\frac{\mathbf{X}_c}{\mathbf{Z}_c} \\f_y\frac{\mathbf{Y}_c}{\mathbf{Z}_c}\end{bmatrix}=\begin{bmatrix}x\\y\end{bmatrix}</script><p>我们将这个映射过程记为$\mathbf{x}=\widehat{m}(\mathbf{X}_c)$，对这个投影变换做局部仿射近似(<code>local affine approximation</code>)：</p><script type="math/tex; mode=display">m(\mathbf{X}_c) = \widehat{m}(\mathbf{\mu}_c)+\mathbf{J}_{\mathbf{\mu}_c}(\mathbf{X}_c-\mathbf{\mu}_c)^\top</script><p>其中${\mu}_c$是高斯中心在相机坐标系下的坐标，且</p><script type="math/tex; mode=display">\mathbf{J}_{\mathbf{\mu}_c} = \frac{\partial \widehat{m}}{\partial \mathbf{X}_c}(\mathbf{\mu}_c)=\begin{bmatrix}f_x\frac{1}{\mu_z} &0                  &-f_x\frac{\mu_x}{\mu_z^2}\\0                &f_y\frac{1}{\mu_z}   &-f_y\frac{\mu_y}{\mu_z^2}\end{bmatrix}</script><p>也就是</p><script type="math/tex; mode=display">\mathbf{x}\approx \widehat{m}(\mathbf{\mu}_c)+\mathbf{J}_{\mathbf{\mu}_c}(\mathbf{X}_c-\mathbf{\mu}_c)^\top</script><p>为了方便，我们将$\mathbf{J}_{\mathbf{\mu}_c}$简记为$\mathbf{J}$。因此，图像平面上二维高斯的协方差为：</p><script type="math/tex; mode=display">\underset{2 \times 2}{\Sigma'}  = \underset{2 \times 3}{J} \hspace{0.5em} \underset{3 \times 3}{\Sigma_c} \hspace{0.5em}\underset{3 \times 2}{J}^\top = \underset{2 \times 3}{J} \hspace{0.5em} \underset{3 \times 3}{W} \hspace{0.5em} \underset{3 \times 3}{\Sigma} \hspace{0.5em} \underset{3 \times 3}{W}^\top \underset{3 \times 2}{J}^\top</script><p>最后，被投影的二维高斯被定义为：</p><script type="math/tex; mode=display">G_i'(\mathbf{x})=e^{-\frac{1}{2}(\mathbf{x}-\mathbf{\mu}'_i)^\top\Sigma'^{-1}_i(\mathbf{x}-\mathbf{\mu}'_i)}</script><p>雅可比矩阵对应3DGS中的代码是：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">glm::mat3 J =</span><br><span class="line">glm::<span class="built_in">mat3</span>(focal_x / t.z, <span class="number">0.0f</span>, -(focal_x * t.x) / (t.z * t.z), </span><br><span class="line"> <span class="number">0.0f</span>, focal_y / t.z, -(focal_y * t.y) / (t.z * t.z),</span><br><span class="line"> <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p><h3 id="3DGS为什么要分tile？"><a href="#3DGS为什么要分tile？" class="headerlink" title="3DGS为什么要分tile？"></a>3DGS为什么要分tile？</h3>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 可微渲染 </tag>
+            
+            <tag> 三维重建 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CMake笔记</title>
+      <link href="//posts/2023/08/blog-post-3/"/>
+      <url>//posts/2023/08/blog-post-3/</url>
+      
+        <content type="html"><![CDATA[<p>程序代码是由<strong>头文件</strong>和<strong>源文件</strong>组成。</p><p>带有main函数的源文件编译成<strong>可执行程序</strong>，其它的编译成<strong>库文件</strong>。</p><p>一个库往往是许多算法程序的集合。在Linux中，库文件分成静态库和共享库两种。静态库以<code>.a</code>作为后缀名，共享库以<code>.so</code>结尾。所有库都是一些函数打包后的集合，差别在于静态库每次被调用时都会生成一个副本，而共享库只有一个副本，更节省空间。</p><p>生成静态库的<code>cmake</code>命令：</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加一个库,hello是库名，libHello.cpp是源文件。</span></span><br><span class="line"><span class="keyword">add_library</span>(hello libHello.cpp) </span><br></pre></td></tr></table></figure><p>这行命令会生成一个<code>libhello.a</code>文件。</p><p>生成动态库的<code>cmake</code>命令：</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加一个共享库，SHARED表示“共享”，hello_shared是库名，libHello.cpp是源文件。</span></span><br><span class="line"><span class="keyword">add_library</span>(hello_shared SHARED libHello.cpp) </span><br></pre></td></tr></table></figure><p>这行命令会生成<code>libhello_shared.so</code>文件。</p><p>库文件是一个压缩包，里面有编译好的二进制函数。但是，如果仅有<code>.a</code>和<code>.so</code>文件，我们并不知道里面的函数是什么，调用的形式又是怎么样的，为了使用这个库，我们需要提供一个头文件。</p><p>因此，对于库的使用者来说，只要拿到了头文件和库文件，就可以调用这个库。如果可执行程序想调用库文件中的函数，则它需要参考该库提供的头文件（即在源<code>.cpp</code>文件中<code>#include &lt;库的头文件&gt;</code>），以明白调用的格式。同时，要把可执行程序链接到库文件上。</p><p>相关的<code>cmake</code>命令如下：</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用useHello.cpp源文件生成可执行文件useHello</span></span><br><span class="line"><span class="comment"># useHello.cpp第一行是#include&lt;hello_shared共享库的头文件&gt;</span></span><br><span class="line"><span class="keyword">add_executable</span>(useHello useHello.cpp) </span><br><span class="line"><span class="comment"># 将可执行文件useHello链接到库hello_shared上</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(useHello hello_shared) </span><br></pre></td></tr></table></figure><p><code>CMakeLists.txt</code>文件用于告诉<code>cmake</code>在这个目录下做什么事情。<code>CMakeList.txt</code>文件的内容需要遵守<code>cmake</code>的语法。</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 声明要求最低的cmake版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>)</span><br><span class="line"><span class="comment"># 声明一个cmake工程，工程名demo</span></span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="comment"># 添加一个可执行程序</span></span><br><span class="line"><span class="comment"># 语法：add_executable(程序名 源代码文件)</span></span><br><span class="line"><span class="keyword">add_executable</span>(hello hello.cpp)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> CMAKE </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>如何在ROS功能包中引用其它ROS功能包</title>
+      <link href="//posts/2023/08/blog-post-2/"/>
+      <url>//posts/2023/08/blog-post-2/</url>
+      
+        <content type="html"><![CDATA[<h4 id="如何在一个ROS功能包中引用其它ROS功能包？"><a href="#如何在一个ROS功能包中引用其它ROS功能包？" class="headerlink" title="如何在一个ROS功能包中引用其它ROS功能包？"></a>如何在一个ROS功能包中引用其它ROS功能包？</h4><p>假设被引用的ROS包名称为<code>third_pkg</code>。</p><p>首先在<code>CMakeList.txt</code>中修改如下内容：</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(catkin REQUIRED COMPONENTS</span><br><span class="line">third_pkg</span><br><span class="line">)</span><br></pre></td></tr></table></figure><p>接着在<code>package.xml</code>中添加如下内容：</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build_depend</span>&gt;</span>third_pkg<span class="tag">&lt;/<span class="name">build_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">build_export_depend</span>&gt;</span>third_pkg<span class="tag">&lt;/<span class="name">build_export_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exec_depend</span>&gt;</span>third_pkg<span class="tag">&lt;/<span class="name">exec_depend</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> CMAKE </tag>
+            
+            <tag> ROS </tag>
+            
+            <tag> 机器人操作系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>NeRF原理剖析</title>
+      <link href="//posts/2023/08/blog-post-1/"/>
+      <url>//posts/2023/08/blog-post-1/</url>
+      
+        <content type="html"><![CDATA[<p>NeRF认为场景是一团<strong>发光粒子云</strong>（或者说烟雾，fog）。</p><h2 id="体渲染"><a href="#体渲染" class="headerlink" title="体渲染"></a>体渲染</h2><p>将区间$[t_n,t_f]$划分为$N$个长度相同的bins（箱子），然后在每个箱子内按照均匀分布进行采样，用数学语言描述为：</p><script type="math/tex; mode=display">t_i\sim\mathcal{U}\bigg[t_n+\frac{i-1}{N}(t_f-t_n),t_n+\frac{i}{N}(t_f-t_n)\bigg]</script><script type="math/tex; mode=display">C(t_{N+1})=\sum_{i=1}^N\mathcal{T}_i\cdot(1-\exp\left(-\sigma_i\delta_i\right))\cdot\mathbf{c}_i,\quad\text{其中}\quad\mathcal{T}_i=\exp\left(-\sum_{j=1}^{i-1}\sigma_j\delta_j\right)</script><p>这里的$\delta_i=t_{i+1}-t_i$是相邻采样点之间的距离。</p><p>最后，不使用包含体密度的项来表示这些表达式，使用alpha分解得到的权重$\alpha_{i}\equiv1-\exp\left(-\sigma_{i}\delta_{i}\right)$将公式化简为：</p><script type="math/tex; mode=display">C(t_{N+1})=\sum_{i=1}^N\mathcal{T}_i\cdot\alpha_i\cdot\mathbf{c}_i,\quad\text{其中}\quad\mathcal{T}_i=\prod_{j=1}^{i-1}(1-\alpha_j)</script><h2 id="分层采样策略"><a href="#分层采样策略" class="headerlink" title="分层采样策略"></a>分层采样策略</h2><script type="math/tex; mode=display">\hat{C}_c(\mathbf{r})=\sum_{i=1}^{N_c}w_ic_i,\quad w_i=\mathcal{T}_i(1-\exp(-\sigma_i\delta_i))</script><p>将这些权重归一化为$\hat{w_{i}}=w_{i}\Big/\sum_{j=1}^{N_{c}}w_{j}$得到一个分段常数概率密度函数，在这个分布上使用逆变换采样得到第二组$N_f$个采样点位置。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 三维重建 </tag>
+            
+            <tag> 神经辐射场 </tag>
+            
+            <tag> NeRF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
